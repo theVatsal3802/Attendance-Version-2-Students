@@ -1,37 +1,12 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 import '../widgets/heading_text.dart';
 import '../widgets/images.dart';
 import '../utils/vertical_space_helper.dart';
 
-class AbsentScreen extends StatefulWidget {
+class AbsentScreen extends StatelessWidget {
   static const routeName = "/absent";
   const AbsentScreen({Key? key}) : super(key: key);
-
-  @override
-  State<AbsentScreen> createState() => _AbsentScreenState();
-}
-
-class _AbsentScreenState extends State<AbsentScreen> {
-  Timer? timer;
-  @override
-  void initState() {
-    super.initState();
-    timer = Timer(
-      const Duration(seconds: 3),
-      () {
-        Navigator.of(context).pop();
-      },
-    );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    timer!.cancel();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,12 +18,20 @@ class _AbsentScreenState extends State<AbsentScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: const [
-              AbsentImage(),
-              VerticalSpaceHelper(height: 10),
-              HeadingText(
+            children: [
+              const AbsentImage(),
+              const VerticalSpaceHelper(height: 10),
+              const HeadingText(
                 textAlign: TextAlign.center,
                 text: "Sorry! Attendance Already Closed",
+              ),
+              const VerticalSpaceHelper(height: 30),
+              ElevatedButton(
+                onPressed: () {},
+                child: const Text(
+                  "Back to Home",
+                  textScaleFactor: 1,
+                ),
               ),
             ],
           ),

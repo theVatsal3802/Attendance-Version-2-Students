@@ -4,6 +4,7 @@ import '../widgets/images.dart';
 import '../utils/vertical_space_helper.dart';
 import '../widgets/custom_textfield.dart';
 import '../services/auth_functions.dart';
+import './verify_email_screen.dart';
 
 class AuthScreen extends StatefulWidget {
   static const routeName = "/auth";
@@ -22,20 +23,36 @@ class _AuthScreenState extends State<AuthScreen> {
   bool _isLoading = false;
 
   void callFunction() async {
+    FocusScope.of(context).unfocus();
     setState(() {
       _isLoading = true;
     });
-    await AuthFunctions().submitForm(
-      _formkey,
+    bool valid = _formkey.currentState!.validate();
+    if (!valid) {
+      return;
+    }
+    _formkey.currentState!.save();
+    await AuthFunctions()
+        .submitForm(
       _nameController.text.trim(),
       _emailController.text.trim().toLowerCase(),
       _passwordController.text.trim(),
       context,
       isLogin,
+    )
+        .then(
+      (value) {
+        setState(() {
+          _isLoading = false;
+        });
+        if (value) {
+          Navigator.of(context).pushNamedAndRemoveUntil(
+            VerifyEmailScreen.routeName,
+            (route) => false,
+          );
+        }
+      },
     );
-    setState(() {
-      _isLoading = false;
-    });
   }
 
   @override
@@ -123,7 +140,8 @@ class _AuthScreenState extends State<AuthScreen> {
                         callFunction();
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.secondary,
+                        backgroundColor:
+                            Theme.of(context).colorScheme.secondary,
                         padding: const EdgeInsets.symmetric(
                           horizontal: 70,
                           vertical: 10,

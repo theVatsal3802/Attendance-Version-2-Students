@@ -1,11 +1,12 @@
 import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
-import '../widgets/custom_drawer.dart';
+import '../auth/auth_screen.dart';
 import '../widgets/heading_text.dart';
 import '../utils/vertical_space_helper.dart';
 import '../services/other_functions.dart';
@@ -85,10 +86,13 @@ class _HomeState extends State<Home> {
           });
         }
         if (isConnected && isAlertSet == true) {
-          await MongoDB.connect();
-          Fluttertoast.showToast(
-            msg: "Connected Again!",
-            toastLength: Toast.LENGTH_SHORT,
+          await MongoDB.connect().then(
+            (_) {
+              Fluttertoast.showToast(
+                msg: "Connected Again!",
+                toastLength: Toast.LENGTH_SHORT,
+              );
+            },
           );
         }
       },
@@ -136,12 +140,28 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        drawer: const CustomDrawer(),
         appBar: AppBar(
           title: const Text(
             "Mark Attendance",
             textScaleFactor: 1,
           ),
+          actions: [
+            IconButton(
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut().then(
+                  (_) {
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      AuthScreen.routeName,
+                      (route) => false,
+                    );
+                  },
+                );
+              },
+              icon: const Icon(
+                Icons.logout,
+              ),
+            ),
+          ],
         ),
         body: Padding(
           padding: const EdgeInsets.all(20),
@@ -222,7 +242,7 @@ class _HomeState extends State<Home> {
                   validator: (value) {
                     value = value!.trim().toUpperCase();
                     if (value.isEmpty) {
-                      return "Please enter 6 digit attendance code";
+                      return "Please enter attendance code";
                     }
                     return null;
                   },

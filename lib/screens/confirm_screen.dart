@@ -1,36 +1,12 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
+import '../utils/vertical_space_helper.dart';
 import '../widgets/images.dart';
 import '../widgets/heading_text.dart';
 
-class ConfirmScreen extends StatefulWidget {
+class ConfirmScreen extends StatelessWidget {
   static const routeName = "/confirm";
   const ConfirmScreen({Key? key}) : super(key: key);
-
-  @override
-  State<ConfirmScreen> createState() => _ConfirmScreenState();
-}
-
-class _ConfirmScreenState extends State<ConfirmScreen> {
-  Timer? timer;
-  @override
-  void initState() {
-    super.initState();
-    timer = Timer(
-      const Duration(seconds: 3),
-      () {
-        Navigator.of(context).pop();
-      },
-    );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    timer!.cancel();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +26,14 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                 HeadingText(
                   text: "Attendance marked for $subject",
                   textAlign: TextAlign.center,
+                ),
+                const VerticalSpaceHelper(height: 30),
+                ElevatedButton(
+                  onPressed: () {},
+                  child: const Text(
+                    "Back to Home",
+                    textScaleFactor: 1,
+                  ),
                 ),
               ],
             ),
