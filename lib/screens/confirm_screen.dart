@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../utils/vertical_space_helper.dart';
 import '../widgets/images.dart';
 import '../widgets/heading_text.dart';
+import '../screens/home.dart';
 
 class ConfirmScreen extends StatelessWidget {
   static const routeName = "/confirm";
@@ -29,7 +30,12 @@ class ConfirmScreen extends StatelessWidget {
                 ),
                 const VerticalSpaceHelper(height: 30),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      Home.routeName,
+                      (route) => false,
+                    );
+                  },
                   child: const Text(
                     "Back to Home",
                     textScaleFactor: 1,

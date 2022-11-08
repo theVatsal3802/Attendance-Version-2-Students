@@ -56,6 +56,10 @@ class MongoDB {
             batch,
           )
           .eq(
+            "subject",
+            subject,
+          )
+          .eq(
             "month",
             DateTime.now().month.toString(),
           )
@@ -63,7 +67,7 @@ class MongoDB {
             "day",
             DateTime.now().day.toString(),
           ),
-      modify.push(
+      modify.addToSet(
         "attendance",
         rollno,
       ),

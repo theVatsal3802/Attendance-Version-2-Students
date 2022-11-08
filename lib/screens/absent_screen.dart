@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../widgets/heading_text.dart';
 import '../widgets/images.dart';
 import '../utils/vertical_space_helper.dart';
+import '../screens/home.dart';
 
 class AbsentScreen extends StatelessWidget {
   static const routeName = "/absent";
@@ -27,7 +28,12 @@ class AbsentScreen extends StatelessWidget {
               ),
               const VerticalSpaceHelper(height: 30),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                    Home.routeName,
+                    (route) => false,
+                  );
+                },
                 child: const Text(
                   "Back to Home",
                   textScaleFactor: 1,

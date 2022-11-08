@@ -118,6 +118,14 @@ class _HomeState extends State<Home> {
         });
       }
     } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            e.toString(),
+            textScaleFactor: 1,
+          ),
+        ),
+      );
       setState(() {
         isLoading = false;
       });

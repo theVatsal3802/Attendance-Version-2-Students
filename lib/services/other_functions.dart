@@ -34,7 +34,7 @@ class Functions {
     String batch = await AuthFunctions().extractBatch(user!.email!);
     String rollno = user.email!.substring(0, 12);
     if (teacherData != null) {
-      if ((date.hour.toString() == teacherData["hour"] &&
+      if ((date.hour == int.parse(teacherData["hour"]!) &&
               date.minute >= int.parse(teacherData["minute"]!)) ||
           (date.hour > int.parse(teacherData["hour"]!) &&
               date.minute < int.parse(teacherData["minute"]!))) {
